@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  service-one:
+    build: ./trace-service-one
+    image: nchapon/service-one:latest
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+  service-two:
+    build: ./trace-service-two
+    image: nchapon/service-two:latest
+    ports:
+      - 9090:9090

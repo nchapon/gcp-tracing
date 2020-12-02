@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-one-application-properties-config-map
+data:
+  application.properties: |
+    [
+     server.port: 8080
+     service.two.url=http://service-two-svc:9090
+    ]
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-two-application-properties-config-map
+data:
+  application.properties: |
+    [
+     server.port: 9090
+    ]

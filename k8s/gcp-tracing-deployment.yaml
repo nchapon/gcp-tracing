@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-one-deployment
+  labels:
+    app: service-one
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-one
+  template:
+    metadata:
+      labels:
+        app: service-one
+    spec:
+      containers:
+      - name: service-one
+        image: nchapon/service-one:0.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: service-one-application-properties
+          mountPath: "/opt/application.properties"
+          subPath: "application.properties"
+        env:
+          - name: SPRING_CONFIG_LOCATION
+            value: "/opt/application.properties"
+
+      volumes:
+        - name: service-one-application-properties
+          configMap:
+            name: service-one-application-properties-config-map
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-two-deployment
+  labels:
+    app: service-two
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-two
+  template:
+    metadata:
+      labels:
+        app: service-two
+    spec:
+      containers:
+      - name: service-two
+        image: nchapon/service-two:0.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: service-two-application-properties
+          mountPath: "/opt/application.properties"
+          subPath: "application.properties"
+        env:
+          - name: SPRING_CONFIG_LOCATION
+            value: "/opt/application.properties"
+
+      volumes:
+        - name: service-two-application-properties
+          configMap:
+            name: service-two-application-properties-config-map
